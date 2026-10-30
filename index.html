@@ -8,10 +8,58 @@
 </head>
 
 <body>
-  <main class="hero">
-    <h1>BuildLog</h1>
-    <p>Я вчуся створювати корисні програми.</p>
-    <button id="startButton">Почати навчання</button>
+  <main class="app">
+    <header class="hero">
+      <p class="eyebrow">Мій шлях розробника</p>
+      <h1>BuildLog</h1>
+      <p>Записуй практику, накопичуй досвід і створюй корисні програми.</p>
+    </header>
+
+    <section class="stats">
+      <article class="stat-card">
+        <span>Загальний час</span>
+        <strong id="totalMinutes">0 хв</strong>
+      </article>
+
+      <article class="stat-card">
+        <span>Кількість занять</span>
+        <strong id="sessionCount">0</strong>
+      </article>
+    </section>
+
+    <form id="studyForm" class="study-form">
+      <h2>Додати заняття</h2>
+
+      <label>
+        Що ти вивчав?
+        <input
+          id="topicInput"
+          type="text"
+          placeholder="Наприклад: JavaScript"
+          required
+        >
+      </label>
+
+      <label>
+        Скільки хвилин?
+        <input
+          id="minutesInput"
+          type="number"
+          min="1"
+          placeholder="60"
+          required
+        >
+      </label>
+
+      <button type="submit">Зберегти заняття</button>
+    </form>
+
+    <section class="history">
+      <h2>Історія занять</h2>
+      <ul id="sessionList">
+        <li class="empty-message">Занять поки немає.</li>
+      </ul>
+    </section>
   </main>
 
   <script src="script.js"></script>
