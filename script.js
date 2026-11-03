@@ -8,6 +8,15 @@ const sessionCount = document.querySelector("#sessionCount");
 let sessions =
   JSON.parse(localStorage.getItem("buildlogSessions")) || [];
 
+// Перетворюємо хвилини на години та хвилини.
+function formatMinutes(minutes) {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  return `${hours} год ${remainingMinutes} хв`;
+}
+
+// Зберігаємо заняття в браузері.
 function saveSessions() {
   localStorage.setItem(
     "buildlogSessions",
@@ -15,6 +24,7 @@ function saveSessions() {
   );
 }
 
+// Показуємо заняття та оновлюємо статистику.
 function renderSessions() {
   sessionList.innerHTML = "";
 
@@ -39,7 +49,7 @@ function renderSessions() {
     deleteButton.className = "delete-button";
 
     topic.textContent = session.topic;
-    time.textContent = `${session.minutes} хв`;
+    time.textContent = formatMinutes(session.minutes);
 
     deleteButton.textContent = "Видалити";
     deleteButton.type = "button";
@@ -55,17 +65,23 @@ function renderSessions() {
     0
   );
 
-  totalMinutes.textContent = `${total} хв`;
+  totalMinutes.textContent = formatMinutes(total);
   sessionCount.textContent = sessions.length;
 }
 
+// Додаємо нове заняття після надсилання форми.
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const topic = topicInput.value.trim();
   const minutes = Number(minutesInput.value);
 
-  if (!topic || minutes < 1) {
+  if (
+    !topic ||
+    !Number.isSafeInteger(minutes) ||
+    minutes < 1
+  ) {
+    alert("Введи тему та додатну цілу кількість хвилин.");
     return;
   }
 
@@ -83,6 +99,7 @@ form.addEventListener("submit", (event) => {
   topicInput.focus();
 });
 
+// Видаляємо заняття після натискання його кнопки.
 sessionList.addEventListener("click", (event) => {
   if (!event.target.matches(".delete-button")) {
     return;
@@ -96,4 +113,5 @@ sessionList.addEventListener("click", (event) => {
   renderSessions();
 });
 
+// Показуємо збережені дані під час відкриття сторінки.
 renderSessions();
